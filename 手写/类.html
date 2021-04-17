@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        class Dad {
+            constructor(height) {
+                this.name = '张三'
+                this.age = 50
+                this.height = height
+            }
+            fn() {
+                console.log("Dadfn...")
+            }
+        }
+        class Son extends Dad {
+            constructor(height, sex) {
+                super(height)
+                this.sex = sex//必须放在super之后
+            }
+            fn() {
+                // 重写
+                super.fn();//子类方法中使用super.ffm()就会执行父类fn方法
+                console.log("Sonfn...")
+            }
+        }
+        // let f = new Dad('32')
+        // f.fn()
+        // let s = new Son('242')
+        // s.fn()
+    </script>
+</body>
+
+</html>

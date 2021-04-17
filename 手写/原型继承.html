@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function Dad(height) {
+            this.name = '张三'
+            this.age = 50
+            this.height = height
+        }
+        function Son(height, sex) {
+            this.sex = sex;
+            Dad.call(this, height)
+        }
+        Dad.prototype.fn = function () {
+            console.log("Dadfn...")
+        }
+        Dad.prototype.fn2 = function () {
+            console.log("Dadfn2...")
+        }
+        // Son.prototype = Dad.prototype;//原型继承
+
+        function link(){}
+        link.prototype = Dad.prototype
+        Son.prototype = new link()
+        Son.prototype.constror = Son
+
+        Son.prototype.fn = function () {
+            console.log("Sonfn...")
+        }
+        let zhangsan = new Son()
+        zhangsan.fn()
+        zhangsan.fn2()
+        let lisi = new Dad()
+        console.log(lisi.f5)
+    </script>
+</body>
+
+</html>

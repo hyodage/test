@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            height: 3000px;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        function debounce(fn, time = 1000) {
+            let timer = 0
+            return function (...args) {
+                let _self = this
+                clearTimeout(timer)
+                timer = setTimeout(() => {
+                    fn.apply(_self,args)
+                }, time)
+            }
+        }
+        function throttle(fn,time=1000){
+            let timer = 0
+            return function(...args){
+                let _self = this
+                if(timer){
+                    return
+                }
+                fn.apply(_self,args)
+                timer = setTimeout(()=>{
+                    clearTimeout(timer)
+                    timer = 0
+                },time)
+            }
+        }
+        window.addEventListener('scroll', throttle(showY))
+        function showY() {
+            console.log(window.scrollY)
+        }
+        print('dddddddd')
+    </script>
+</body>
+
+</html>

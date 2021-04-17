@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let xhr = new XMLHttpRequest()
+        let httpUrl = 'https://cnodejs.org/api/v1/topics'
+        xhr.open('GET', httpUrl,true)//true表示异步，false表示同步
+        xhr.onreadystatechange = () => {
+            if (xhr.status == 200 && xhr.readyState == 4) {
+                console.log('成功', xhr)
+            } else if (xhr.status !== 200 && xhr.readyState == 4) {
+                console.log('失败', xhr)
+            }
+        }
+        xhr.send()
+    </script>
+    <script>
+        let httpUrl2 = 'https://cnodejs.org/api/v1/topics'
+        fetch(httpUrl2).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => console.log('Success:', response));
+    </script>
+    <script>
+        // post fetch方式 跨域限制
+        /* var url = 'https://example.com/profile';
+        var data = { username: 'example' };
+        fetch(url, {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(data), // data can be `string` or {object}!
+            headers: new Headers({
+                'Content-Type': 'application/json',
+            })
+        }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => console.log('Success:', response)); */
+    </script>
+    <script>
+        // promise封装xhr达到fetch效果
+        const Pajax = (url)=>{
+            return new Promise((resolve,reject)=>{
+                let xhr = new XMLHttpRequest()
+                xhr.open('get',url)
+                xhr.onreadystatechange = ()=>{
+                    if(xhr.status==200&&xhr.readyState==4){
+                        resolve(xhr)
+                    }else if(xhr.status!==200&&xhr.readyState==4){
+                        reject(xhr)
+                    }
+                }
+                xhr.send()
+            })
+        }
+        Pajax('https://cnodejs.org/api/v1/topics').then(res=>{
+            let result = JSON.parse(res.response)
+            console.log('pajax',result)
+        }).catch(err=>{console.log(err)})
+    </script>
+    <script>
+        //async await
+        async function req(httpUrl){
+            let res = await fetch(httpUrl)
+            console.log('res',res)
+            let pajax = await Pajax(httpUrl)
+            console.log('pajax',pajax)
+        }
+        req('https://cnodejs.org/api/v1/topics')
+    </script>
+</body>
+
+</html>

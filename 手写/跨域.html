@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 
+            现在所有支持JavaScript 的浏览器都会使用同源策略。
+            所谓同源是指，域名，协议，端口必须一致（当前网页和server必须同源-安全）
+            解决这种同源策略的方法称之为跨域
+            所有的跨域，都必须经过server端允许和配合
+            未经server端允许就实现跨域，说明浏览器有漏洞，危险信号
+        */
+        /* 
+            加载图片css，js可无视同源策略-如cdn
+            (图片可能有服务器端做得防盗链限制)
+            <img/>可用于统计打点，可使用第三方统计服务
+            <link><script>可使用CDN，CDN一般都是外域
+            <script>可实现jsonp
+        */
+        
+        /* jsonp跨域 */
+        /* 原理：
+            <script>标签的src属性并不被同源策略所约束，可绕过跨域限制
+            服务器可以任意动态拼接数据返回
+            所以<script>就可以获取跨域的数据，只要服务端愿意返回 
+        */
+        
+        // 只支持get方式，不支持post，存在安全性问题
+        // 如果是非简单请求，并且请求的地址支持options请求方式，首先就发送这样一个请求，响应头，看当前源是否在白名单里面，如果不在就不在发起请求了，但是会显示记录，并且报错
+        // 很多时候可能看不到这个options的请求，因为服务器可能只给了get或者post一种请求方式。
+        // 后端：ctx.set('Access-Control-Allow-Origin','http://127.0.0.1:5500');
+        // http-proxy-middleware 插件，react跨域
+        /* 简单请求：请求方式：GET、POST、HEAD
+        请求头不超过：
+        无自定义头部字段、
+        Accept、
+        Accept-Language、
+        Content-Language、
+        Last-Event-ID、
+        Content-Type（只有三个值application/x-www-form-urlencoded、multipart/form-data、text/plain） */
+
+    </script>
+</body>
+
+</html>

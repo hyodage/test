@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        Function.prototype.myapply = function(thisobj,arg){
+            if(thisobj == null || thisobj == undefined){
+                thisobj = window
+            }
+            let special = Symbol()
+            thisobj[special] = this
+            let result = thisobj[special](...arg)
+            delete thisobj[special]
+            return result
+        }
+        Function.prototype.mybind = function(thisobj,...arg){
+            let thisFn = this
+            const bindFn = function (...secondarg){
+                let isNew = this instanceof bindFn
+                let thisArg = isNew?Object.getPrototypeOf(this):thisobj
+                return thisFn.call(thisArg,...arg,...secondarg)
+            }
+            bindFn.prototype = Object.create(thisFn.prototype)
+            return bindFn
+        }
+        let obj = {
+            name: '张三',
+            abc: function () {
+                console.log(this.name)
+                console.log(arguments)
+                console.log(this)
+            }
+        }
+        let obj2 = {
+            name: '李四'
+        }
+        // obj.abc.myapply(obj2,[1,2,3])
+        let d = obj.abc.mybind(obj2, 1, 2, 3)
+        // d(4)
+        new d(4)
+    </script>
+</body>
+
+</html>
