@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 装饰器模式希望在不改变原对象的基础上，通过对其拓展功能和属性来实现更复杂的逻辑
+        // 一般写法
+        /* function Car(){
+            this.price = 10
+        }
+        Car.prototype = {
+            addHeatSeat:function(){
+                this.hasHeatSeat = true
+                this.price +=2
+            },
+            addAutoMirror:function(){
+                this.hasAutoMirror = true
+                this.price +=0.8
+            }
+        }
+        let car1 = new Car()
+        console.log(car1)//{price:10}
+        car1.addHeatSeat()
+        car1.addAutoMirror()
+        console.log(car1)//{price: 12.8, hasHeatSeat: true, hasAutoMirror: true}
+     */
+        // 装饰器模式写法
+        /* 不会修改和破坏原来的构造函数，有新的功能和配置也不需要写在构造函数里面，
+        而是单独声明一个函数去完成，减少了对构造函数的修改和接入
+        */
+
+        function Car() {
+            this.price = 10
+        }
+        function carWithHeatSeat(CarClass) {
+            CarClass.hasHeatSeat = true
+            CarClass.price += 2
+        }
+        function carWithAutoMirror(CarClass) {
+            CarClass.hasAutoMirror = true
+            CarClass.price +=0.8
+        }
+        let car2 = new Car()
+        console.log(car2)//{price:10}
+        carWithHeatSeat(car2)
+        carWithAutoMirror(car2)
+        console.log(car2)
+    </script>
+</body>
+
+</html>

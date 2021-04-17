@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var data = [
+            {
+                name:'zhang san',
+                age:30,
+                work:'engineer'
+            },
+            {
+                name:'li si',
+                age:23,
+                work:'teacher'
+            },
+            {
+                name:'wang wu',
+                age:16,
+                work:'other'
+            }
+        ]
+        function Candidata(param){
+            let _candidata = new Person(param)
+            _candidata.work = new CreateWork(param.work)
+            return _candidata
+        }
+        function Person(param){
+            this.name = param.name
+            this.age = param.age
+            this.firstname = this.name.split(' ')[0]
+            this.secondname = this.name.split(' ')[1]
+        }
+        function CreateWork(work){
+            switch(work){
+                case 'engineer':
+                    this.name = '工程师'
+                    this.description = '热爱编程'
+                    break
+                case 'tercher':
+                    this.name = '老师'
+                    this.description = '乐于分享'
+                    break
+                default:
+                    this.name = '其他'
+                    this.description = '无'
+            }
+        }
+        CreateWork.prototype.changeWork = function(work){
+            this.name = work
+        }
+        CreateWork.prototype.changeDes = function(des){
+            this.description = des
+        }
+        // 将所有内容写在一个构造函数里不利于维护
+        let candidataArr = []
+        for(let i=0;i<data.length;i++){
+            candidataArr[i] = Candidata(data[i])
+        }
+        candidataArr[0].work.changeWork('singer')
+        candidataArr[0].work.changeDes('酷爱唱歌')
+        console.log(candidataArr[0])
+    </script>
+</body>
+</html>

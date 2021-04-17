@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 继承
+        // 原型：
+        // 在声明函数的时候，会自动创建一个prototype属性，叫做原型，一般用来存放实例公用的方法
+        function CreateCat(name) {
+            this.name = name
+        }
+        CreateCat.prototype.eat = function (something) {
+            console.log(this.name + ' eat ' + something)
+        }
+        var catA = new CreateCat('CatA')
+        catA.eat('fish') //catA eat fish
+        /* 
+        catA = {
+            __proto__:CreateCat.prototype,
+            name:'CatA'
+        }
+        */
+        console.log(catA)
+        //在js里规定，访问对象属性的时候，如果对象下面没有这个属性，则去他下面的__proto__去寻找，如果还没有就一直向下，直到没有__proto__为止
+
+        // 类式继承
+        function A(name) {
+            this.name = name
+            this.list = [1, 2, 3]
+        }
+        A.prototype.getName = function () {
+            console.log(this.name)
+        }
+        function SubA(name) {
+            this.subName = 'sub' + this.name
+        }
+        SubA.prototype = new A()//把所有A的属性都变成对象赋值给SubA作为公有属性
+        let sa1 = new SubA('sa1')
+        console.log(sa1.list, sa1.name);//[1,2,3] undefined
+        /*
+        SubA.prototype = new A()->{
+            name:undefined,
+            list:[1,2,3],
+            __proto__:{
+                getName:fn,
+                construtor...
+            }
+        }
+        sa1 = new SubA('sa1')->{
+            subName:'sub sa1',
+            __proto__:{
+                name:undefined,
+                list:[1,2,3],
+                __proto__:{
+                    getName:fn,
+                    construtor...
+                }
+            }
+        }
+        //类式继承的问题
+        1.这种方法不支持父构造函数带参数，如上name
+        2.父构造函数里的方法和属性都会变成公有属性
+        */
+
+        // 构造函数式继承
+        function B(name) {
+            this.name = name
+            this.list = [1, 2, 3]
+        }
+        B.prototype.getName = function () {
+            console.log(this.name)
+        }
+        function SubB(name) {
+            B.call(this,name)
+            this.subName = 'sub ' + this.name
+        }
+        let sb1 = new SubB('sb1')
+        console.log(sb1.list,sb1.name,sb1.subName)//[1, 2, 3] "sb1" "sub sb1"
+        // sb1.getName() //sb1.getName is not a function
+        /* 
+        sb1 = new SubB('sb1')->{
+            __proto__:{constructor...},
+            name:'sb1',
+            list:[1,2,3],
+            subName:'sub sb1'
+        }
+        // 存在的问题，不能继承父构造函数的原型方法
+        */
+
+        // 组合式继承
+        function C(name) {
+            this.name = name
+            this.list = [1, 2, 3]
+        }
+        C.prototype.getName = function () {
+            console.log(this.name)
+        }
+        function SubC(name) {
+            C.call(this,name)
+            this.subName = 'sub ' + this.name
+        }
+        SubC.prototype = new C()
+        let sc1 = new SubC('sc1')
+        console.log(sc1.list,sc1.name,sc1.subName)
+        sc1.getName()
+        console.log(sc1)
+        /* 
+        SubC.prototype = new C()->{
+            __proto__:{
+                getName:fn,
+                constructor...
+            },
+            name:undefined,
+            this.list:[1,2,3],
+        }
+        let sc1 = new SubC('sc1')->{
+            name:'sc1',
+            list:[1,2,3],
+            subName:'sub sc1',
+            __proto__:{
+                __proto__:{
+                    getName:fn,
+                    constructor...
+                },
+                name:undefined,
+                this.list:[1,2,3],
+            }
+        }
+        // 问题：
+        __proto__里有重复无用属性
+        执行了两次父构造函数
+        */
+
+        // 寄生组合式继承
+        function D(name) {
+            this.name = name
+            this.list = [1, 2, 3]
+        }
+        D.prototype.getName = function () {
+            console.log(this.name)
+        }
+        function SubD(name) {
+            D.call(this,name)
+            this.subName = 'sub ' + this.name
+        }
+        // SubD.prototype = new D()//太暴力
+        function inheritPrototype(subClass,superClass){
+            function F(){}
+            F.prototype = superClass.prototype
+            subClass.prototype = new F()
+            subClass.prototype.constructor = subClass
+        }
+        inheritPrototype(SubD,D)
+        let sd1 = new SubD('sd1')
+        console.log(sd1.list,sd1.name,sd1.subName)
+        sd1.getName()
+        console.log(sd1)
+    </script>
+</body>
+
+</html>

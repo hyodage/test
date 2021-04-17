@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*
+        MVC是由三个单词的首字符组成的:分别是模型model-视图view-控制器controller。
+        他是一种是使用业务逻辑，数据，视图进行分离的方式来组织架构代码的一种模式。
+        */
+        // 简单实例
+        let MVC = {}
+        MVC.model = (function () {
+            let data = {
+                sidebar: [
+                    { title: 'sidebar1', href: './1.html'},
+                    { title: 'sidebar2', href: './2.html'},
+                    { title: 'sidebar3', href: './3.html'},
+                ]
+            }
+            return {
+                getData:function(key){
+                    return data[key]
+                },
+                setData:function(key,value){
+                    data[key] = value
+                    MVC.view('createSidebar')
+                }
+            }
+        })()
+        MVC.view = (function () { 
+            let m = MVC.model
+            let view = {
+                createSidebar:function(){
+                    let data = m.getData('sidebar')
+                    let html = ''
+                    html += '<div id="sidebar">'
+                    for(let i=0;i<data.length;i++){
+                        html+='<div><a href="'+data[i].href+'">'+data[i].title+'</a></div>'
+                    }
+                    html+='</div>'
+                    document.body.innerHTML = html
+                }
+            }
+            return function(v){
+                view[v]()
+            }
+        })()
+        MVC.ctrl = (function () {
+            let m = MVC.model
+            let v = MVC.view
+            let c = {
+                initSideBar:function(){
+                    v('createSidebar')
+                },
+                updateSideBar:function(){
+                    m.setData('sidebar',[{title:'new sidebar',href:'./abc.html'}])
+                }
+            }
+            return c
+         })()
+         window.onload = function(){
+             MVC.ctrl.initSideBar()
+             setTimeout(function(){
+                 MVC.ctrl.updateSideBar()
+             },6000)
+         }
+    </script>
+</body>
+</html>

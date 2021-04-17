@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 单例模式是设计模式中最常用的一种
+        // 单例模式就是希望可以在使用方法创建对象的时候，无论创建多少次对象都指向同一个
+        function notSingle(){
+            return {
+                a:123
+            }
+        }
+        let a = notSingle()
+        let b = notSingle()
+        console.log(a===b)//false
+
+        function NotSingle(){
+            this.a=123
+        }
+        let c = new NotSingle()
+        let d = new NotSingle()
+        console.log(c===d)//false
+    </script>
+</body>
+</html>

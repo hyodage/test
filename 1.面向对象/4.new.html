@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // new
+        /* 
+        new做了哪些事
+        1.创建了一个空对象
+        2.将构造函数的prototype属性赋值给新对象的__proto__属性
+        3.将构造函数的this指向新对象
+        4.执行构造函数的代码
+        5.将新对象返回
+        */
+        function Createcat(name) {
+            this.name = name
+        }
+        var catA = new Createcat('catA')
+        console.log(catA)
+        Javascript中的new操作符实际上做了以下4件事情：
+
+创建一个新的空对象
+链接新创建的对象和构造函数的原型对象（就是将新对象的隐式原型__proto__指向构造函数的原型对象prototype）
+执行构造函数，并将构造函数中的this指向新的对象
+第三步如果没有返回对象，就返回this
+
+     function createNew(){
+        //创建新的空对象
+        let obj = {};
+        //解构获得构造函数和参数
+        let  [constructor,...params] = [...arguments];
+        //链接对象到函数原型
+        obj.__proto__  = constructor.prototype;
+        //执行构造函数，将构造函数中的this指向obj对象
+        let result = constructor.apply(obj,params);
+        //如果函数没有返回对象，就返回新创建的对象
+        return typeof result === 'object'?result:obj        
+    }
+
+
+    function Person(name){
+        this.name=name;
+        Person.prototype.sayName=()=>{
+            console.log(this.name)
+        }
+    }
+    let a = new Person('king');
+    a.sayName()
+    console.log(a)//Person {name: "king"}
+
+    let b = createNew(Person,'sara')
+    console.log(b)//Person {name: "sara"}
+
+
+    </script>
+</body>
+
+</html>

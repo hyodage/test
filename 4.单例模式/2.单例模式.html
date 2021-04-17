@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 使用变量缓存创建的对象
+        // _unique是一个全局变量，被修改后会破坏单例模式,解决方法，把变量变成私有（闭包）
+        let _unique = null
+        function createSingle(){
+            let obj = {
+                a:123
+            }
+            if(_unique ===null){
+                _unique = obj
+            }
+            return _unique
+        }
+        let a = createSingle()
+        // _unique = null
+        let b = createSingle()
+        console.log(a===b)//true
+
+        // 安全的单例模式
+        let createSingle2 = (function(){
+            let _unique = null
+            function single(){
+                // 创建对象或者构造函数，都可以写在这里
+                return {
+                    a:1
+                }
+            }
+            return function(){
+                if(_unique ===null){
+                    _unique = single()
+                }
+                return _unique
+            }
+        })()
+        let c = createSingle2()
+        // console.log(_unique)//undefind
+        let d = createSingle2()
+        console.log(c===d)//true
+    </script>
+</body>
+</html>

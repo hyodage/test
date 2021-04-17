@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 传统面向对象的三个特征：封装，继承，多态
+        let catA = {
+            name:'catA',
+            eat(){
+                console.log('catA eat something')
+            }
+        }
+        let catB = {
+            name:'catB',
+            eat(){
+                console.log('catB eat something')
+            }
+        }
+        catA.eat()
+        catB.eat()
+        // 封装
+        // 1.使用工厂模式
+        function createCat(name){
+            let obj = {}
+            obj.name = name
+            obj.eat = function(){
+                console.log(name+' eat something')
+            }
+            return obj
+        }
+        let catAA = createCat('catAA')
+        let catBB = createCat('catBB')
+        catAA.eat()
+        catBB.eat()
+        // 2.面向对象的方式进行封装
+        // CreateCat2叫做构造函数，为区分一般函数首字母大写，new出来的对象叫做实例
+        // 在构造函数中return基本类型不会影响构造函数的值，而return对象类型则会替代构造函数返回该对象
+        function CreateCat(name){
+            this.name = name
+            this.eat = function(){
+                console.log(this.name + ' eat something')
+            }
+        }
+        let catAAA = new CreateCat('catAAA')
+        let catBBB = new CreateCat('catBBB')
+        catAAA.eat()
+        catBBB.eat()
+    </script>
+</body>
+</html>
